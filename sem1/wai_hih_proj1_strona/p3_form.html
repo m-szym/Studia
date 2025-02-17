@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>PE1 Strona główna</title>
+
+        <link rel="stylesheet" href="css/style_main.css"> 
+        <link rel="stylesheet" href="css/style_header.css">           
+        <link rel="stylesheet" href="css/style_mobile.css">  
+        <link rel="stylesheet" href="css/style_pc.css">  
+        <link rel="stylesheet" href="css/style_colors.css"> 
+        
+        <link rel="stylesheet" href="javascript/jquery-ui-1.13.2.custom/jquery-ui.theme.css">
+        <link rel="stylesheet" href="javascript/jquery-ui-1.13.2.custom/jquery-ui.css">
+            
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        
+        <script src="javascript/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+        <script src="javascript/tagcloud/jquery.tagcloud.js" ></script>
+
+        <script src="javascript/js_on_setup.js"></script>
+        <script src="javascript/menu_toggle.js"></script>
+        <script src="javascript/light_dark_toggle.js"></script>
+        <!--<script src="javascript/comment.js"></script>-->
+    </head>
+
+    <body onload="startup();">
+        <header id="header">  
+            <div id="icon1" >
+                <span class="menu_icon" onclick="toggle_menu();">&equiv;</span>
+            </div> 
+            
+            <div id="logo-area">
+                <h1>DELTA</h1>
+            </div>
+
+            <nav id="navi">
+                <ul>
+                    <li ><a href ="index.html">Strona główna</a></li>
+                    <li class="sublist-head">
+                        <a  href ="p2_landing.html">Strona 2</a>
+                        <ul class="sublist">
+                            <li><a href ="p2_article1.html">Strona 2.1</a></li>
+                            <li><a href ="#">Strona 2.2</a></li>
+                            <li><a href ="#">Strona 2.3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href ="p3_form.html">Strona 3</a></li>
+                </ul>
+            </nav>
+
+            <div id="icon2" onclick="change_style();">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="9" />
+                    <line x1="12" y1="3" x2="12" y2="21" />
+                    <line x1="12" y1="9" x2="16.65" y2="4.35" />
+                    <line x1="12" y1="14.3" x2="19.37" y2="6.93" />
+                    <line x1="12" y1="19.6" x2="20.85" y2="10.75" />
+                </svg>            
+            </div>  
+        </header>
+
+        <main>
+            <div class="grid-container">
+ 
+                <div class="news-area" id="newsy">
+                    <div id="tagcloud" class="grid-item news">
+                        <a href="#" rel="0.1">Lorem</a>
+                        <a href="#" rel="2">ipsum</a>
+                        <a href="#" rel="3">dolor</a>
+                        <a href="#" rel="4">sit</a>
+                        <a href="#" rel="5">amet,</a>
+                        <a href="#" rel="6">consectetur</a>
+                        <a href="#" rel="7">adipisicing</a>
+                        <a href="#" rel="8">elit,</a>
+                        <a href="#" rel="5">sed</a>
+                        <a href="#" rel="7">do</a>
+                        <a href="#" rel="3">eiusmod</a>
+                        <a href="#" rel="1">tempor</a>
+                        <a href="#" rel="12">incididunt</a>
+                        <a href="#" rel="1">ut</a>
+                        <a href="#" rel="2">labore</a>
+                        <a href="#" rel="5">et</a>
+                        <a href="#" rel="7">dolore</a>
+                        <a href="#" rel="1">magna</a>
+                        <a href="#" rel="4">aliqua.</a>
+                        <a href="#" rel="1">Ut</a>
+                        <a href="#" rel="2">enim</a>
+                        <a href="#" rel="10">ad</a>
+                        <a href="#" rel="4">minim</a>
+                        <a href="#" rel="1">veniam,</a>
+                        <a href="#" rel="1">quis</a>
+                    </div>
+                    <!-- obsługa zewnętrznego pluginu JQuery -->
+                    <script>
+                        $.fn.tagcloud.defaults = {
+                            size: {start: 10, end: 25, unit: 'px'},
+                            color: {start: '#1e81b0', end: '#063970'}
+                        };
+
+                        $(function () {
+                            $('#tagcloud a').tagcloud();
+                        });
+                    </script>
+                    <div onclick="location.href='#';" style="cursor: pointer;" class="grid-item news">
+                        <p>
+                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical 
+                            Latin literature from 45 BC, making it over 2000 years old.
+                        </p>
+                    </div>
+                    <div onclick="location.href='#';" style="cursor: pointer;" class="grid-item news">
+                        <p>
+                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially 
+                            unchanged.
+                        </p>
+                    </div>
+                    <div onclick="location.href='#';" style="cursor: pointer;" class="grid-item news">
+                        <p>
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid-item long-article">
+                    <!-- formularz z metodą GET i akcją odbierz.php nieobsługiwaną po stronie serwera-->
+                    <form action="a.php" method="get">
+                        <label for="name">Nazwa użytkownika:</label>
+                        <input type="text" name="name"><br>
+                        <textarea name="message" rows="10" cols="50"></textarea><br>
+                        <label for="name">Email:</label>
+                        <input type="email" name="email"><br>
+                        <label for="consent">Zgadzam się na przetwarzanie moich danych:</label>
+                        <input type="checkbox" name="consent"><br>
+                        <label for="list">Lista</label>
+                        <select name="list">
+                                <option value="Internet Explorer">Alfa</option>
+                                <option value="Firefox">Beta</option>
+                                <option value="Chrome">Gamma</option>
+                                <option value="Opera">Delta</option>
+                                <option value="Safari">Internet Explorer</option>
+                        </select><br>
+                        1 - 2 - 3<br>
+                        <input type="radio" name="radia" value="Uno">
+                        <label for="html">Uno</label><br>
+                        <input type="radio" name="radia" value="Dos">
+                        <label for="html">Dos</label><br>
+                        <input type="radio" name="radia" value="Tres">
+                        <label for="html">Tres</label><br>
+                        <input type="submit" value="Wyślij">
+                        <input type="reset" value="Wyczyść">
+                    </form>
+                </div>
+                
+                <div id="dialog" title="Basic dialog" style="display:none;">
+                    <p>Twoje zgłoszenie zostało wysłane <span id="dialog_name"></span> !</p>
+                </div>
+                <!-- obsługa komponentu JQuery UI - element dialog wyświetlający potwierdzenie przesłania formularza-->
+                <script>
+                $(function show_d() {
+                    $(':submit').click(function () {
+                        var name = $("[name='name']").val();
+                        $('#dialog_name').text(name);
+                        $( "#dialog" ).dialog();                       
+                    })
+                });
+                </script>
+
+            </div>
+            
+        </main>
+
+        <footer>
+            <p>Marek Szymański - 193299</p>
+        </footer>
+    </body>
+</html>

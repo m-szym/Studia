@@ -1,0 +1,11 @@
+:root {
+    --main-bg-color: whitesmoke;
+    --primary-color: rgb(148, 148, 148);
+    --secondary-color: lightgrey;
+    --contrast-color: rgb(182, 0, 0);;
+
+    --typeface-color: rgb(58, 58, 58);
+    --stronger-typeface-color: black;
+    --other-typeface-color: rgb(182, 0, 0);
+  }
+  

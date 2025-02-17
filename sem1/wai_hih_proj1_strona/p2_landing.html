@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>PE1 Strona główna</title>
+
+        <link rel="stylesheet" href="css/style_main.css"> 
+        <link rel="stylesheet" href="css/style_header.css">           
+        <link rel="stylesheet" href="css/style_mobile.css">  
+        <link rel="stylesheet" href="css/style_pc.css">  
+        <link rel="stylesheet" href="css/style_colors.css"> 
+        
+        <!--<link rel="stylesheet" href="javascript/jquery-ui-1.13.2.custom/jquery-ui.theme.css">--> 
+        <!--<link rel="stylesheet" href="javascript/jquery-ui-1.13.2.custom/jquery-ui.css">-->
+            
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        
+        <!--<script src="javascript/jquery-ui-1.13.2.custom/jquery-ui.js"></script>-->
+        <script src="javascript/tagcloud/jquery.tagcloud.js" ></script>
+
+        <script src="javascript/js_on_setup.js"></script>
+        <script src="javascript/menu_toggle.js"></script>
+        <script src="javascript/light_dark_toggle.js"></script>
+        <!--<script src="javascript/comment.js"></script>-->
+    </head>
+
+    <body onload="startup();">
+        <header id="header">  
+            <div id="icon1" >
+                <span class="menu_icon" onclick="toggle_menu();">&equiv;</span>
+            </div> 
+            
+            <div id="logo-area">
+                <h1>DELTA</h1>
+            </div>
+
+            <nav id="navi">
+                <ul>
+                    <li ><a href ="index.html">Strona główna</a></li>
+                    <li class="sublist-head">
+                        <a class="active" href ="p2_landing.html">Strona 2</a>
+                        <ul class="sublist">
+                            <li><a href ="p2_article1.html">Strona 2.1</a></li>
+                            <li><a href ="#">Strona 2.2</a></li>
+                            <li><a href ="#">Strona 2.3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href ="p3_form.html">Strona 3</a></li>
+                </ul>
+            </nav>
+
+            <div id="icon2" onclick="change_style();">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="9" />
+                    <line x1="12" y1="3" x2="12" y2="21" />
+                    <line x1="12" y1="9" x2="16.65" y2="4.35" />
+                    <line x1="12" y1="14.3" x2="19.37" y2="6.93" />
+                    <line x1="12" y1="19.6" x2="20.85" y2="10.75" />
+                </svg>            
+            </div>  
+        </header>
+
+        <main>
+            <div class="grid-container">
+
+                <!--<div class="section-header"></div>-->
+
+                <div class="grid-item section">
+                    <h2>LOREM IPSUM</h2>
+                    <img src="imgs/stars1.jpg" alt="wheel of stars" class="f_left">
+                    <p>
+                        "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+                        <br>
+                        "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+                        <br>
+                        <span style="font-size:smaller;">Marcus Tullius Cicero -  "de Finibus Bonorum et Malorum"</span>
+                    </p>
+                </div>
+
+                <div class="grid-item section-content">
+                    <h3>Title</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rutrum sed sapien sit amet dignissim. Donec 
+                        vulputate ante risus, id bibendum nunc vestibulum molestie. Aliquam maximus felis ac fermentum condimentum. 
+                        Phasellus luctus iaculis mattis. Nam facilisis sit amet ante eget varius. Curabitur a risus ligula. Nam tempor 
+                        tellus nulla, id facilisis ex mattis quis.  
+                        <a href="#" class="read-further">Czytaj dalej...</a>
+                    </p>
+                </div>
+
+                <div class="grid-item section-content">
+                    <h3>Title, but longer</h3>
+                    <P>
+                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras dapibus non 
+                        dolor in tempus. Aenean odio magna, commodo accumsan ipsum at, semper cursus ante. Vestibulum commodo, leo 
+                        in dictum consectetur, sapien risus iaculis ipsum, at bibendum tellus nulla non arcu. Integer rutrum felis 
+                        nec rutrum luctus. Mauris lobortis nunc at neque finibus, sed efficitur augue iaculis. 
+                        <a href="#" class="read-further">Czytaj dalej...</a>
+                    </P>
+                </div>
+ 
+                <div class="news-area" id="newsy">
+                    <div id="tagcloud" class="grid-item news">
+                        <a href="#" rel="0.1">Lorem</a>
+                        <a href="#" rel="2">ipsum</a>
+                        <a href="#" rel="3">dolor</a>
+                        <a href="#" rel="4">sit</a>
+                        <a href="#" rel="5">amet,</a>
+                        <a href="#" rel="6">consectetur</a>
+                        <a href="#" rel="7">adipisicing</a>
+                        <a href="#" rel="8">elit,</a>
+                        <a href="#" rel="5">sed</a>
+                        <a href="#" rel="7">do</a>
+                        <a href="#" rel="3">eiusmod</a>
+                        <a href="#" rel="1">tempor</a>
+                        <a href="#" rel="12">incididunt</a>
+                        <a href="#" rel="1">ut</a>
+                        <a href="#" rel="2">labore</a>
+                        <a href="#" rel="5">et</a>
+                        <a href="#" rel="7">dolore</a>
+                        <a href="#" rel="1">magna</a>
+                        <a href="#" rel="4">aliqua.</a>
+                        <a href="#" rel="1">Ut</a>
+                        <a href="#" rel="2">enim</a>
+                        <a href="#" rel="10">ad</a>
+                        <a href="#" rel="4">minim</a>
+                        <a href="#" rel="1">veniam,</a>
+                        <a href="#" rel="1">quis</a>
+                    </div>
+                    <!-- obsługa zewnętrznego pluginu JQuery -->
+                    <script>
+                        $.fn.tagcloud.defaults = {
+                            size: {start: 10, end: 25, unit: 'px'},
+                            color: {start: '#1e81b0', end: '#063970'}
+                        };
+
+                        $(function () {
+                            $('#tagcloud a').tagcloud();
+                        });
+                    </script>
+                    <div onclick="location.href='#';" style="cursor: pointer;" class="grid-item news">
+                        <p>
+                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical 
+                            Latin literature from 45 BC, making it over 2000 years old.
+                        </p>
+                    </div>
+                    <div onclick="location.href='#';" style="cursor: pointer;" class="grid-item news">
+                        <p>
+                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially 
+                            unchanged.
+                        </p>
+                    </div>
+                    <div onclick="location.href='#';" style="cursor: pointer;" class="grid-item news">
+                        <p>
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid-item section">
+                    <h2>Etiam in volutpat nisl.</h2>
+                    <p>
+                        Integer ullamcorper at sapien tincidunt vestibulum. Proin ac turpis imperdiet, facilisis nibh eu, cursus velit. 
+                        Nunc et risus dui. Cras vestibulum nisl ornare diam eleifend hendrerit. Morbi sit amet metus eu velit aliquet 
+                        tempus. Vivamus ac accumsan enim, eget consectetur augue. Morbi bibendum eleifend egestas.
+                    </p>
+                </div>
+
+                <div class="grid-item section-content">
+                    <h3>Title</h3>
+                    <img src="imgs/stars2.jpg" alt="fast stars" class="f_right">
+                    <p>
+                        Maecenas orci sem, laoreet vel tortor non, malesuada sodales est. Nunc vulputate elit et neque venenatis 
+                        tincidunt. In hac habitasse platea dictumst.  
+                    </p>
+                </div>
+
+                <div class="grid-item section-content">
+                    <h3>"Commentarii de Bello Gallico"</h3>
+                    <P>
+                        Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam, qui ipsorum 
+                        lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab 
+                        Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit. 
+                    </P>
+                </div>
+
+            </div>
+
+            
+        </main>
+
+        <footer>
+            <p>Marek Szymański - 193299</p>
+        </footer>
+    </body>
+</html>
