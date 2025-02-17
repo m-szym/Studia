@@ -1,0 +1,59 @@
+./" Manpage for md5compare
+./" Created as student assginment for Operating Systems course
+.TH man 1 „24 May 2023" "4.0" "md5compare man page"
+.SH NAME
+md5compare - compare two files / directories using MD5 checksums
+.SH SYNOPSIS
+dsk
+.br
+dsk -z [FILE]
+.br
+dsk -s [MD5_CHECKSUM_FILE]
+.br
+dsk -p [FILE_1] -p [FILE_2] -d
+.SH DESCRIPTION
+md5compare provides simple and accesible way of comparing the contents of two files / directories using the md5 checksums. The main varsion, which uses GUI created with the help of zenity program, provides the following functionalities:
+.br
+** comparing contents of two files, selected one by one with the file-selection window - informs whetever the contents of the file are exactly the same or differrent
+.br
+*  comparing contesnts of two directories, selected again one by one with file-selection window - if there are diffrences found between directory 1 and directory 2 a list of files / directories present in directory 2 and not in directory 1 will be provided in an informaiotn dialog
+.br
+** saving the md5 checksum calculated for selected file to the script directory ( home/dsk_md5 ) for future use
+.br
+** using previously saved md5 checksum ( in home/dsk_md5 directory ) to check if the contents of the corresponding file were changed since the checksum was saved
+.br
+options marked by ** can also be called directly from terminal using the special options eplained in OPTIONS, any comparison operation called in this way returns 1 if no differences were found or 0 if there were any differences
+.SH OPTIONS
+-h help, including information about the different options
+.br 
+-v current script version and last update
+.br 
+-z directly saves the md5 checksum calculated by script for given file to its directory in home/dsk_md5 for future use. Checksum file name is the same as original file with the .md5 format.
+.br 
+-s directly compares the md5 checksum from the chosen .md5 file to the file for which the checksum war originally calculated
+.br 
+-p enters one of the files needed for -d option, only the last two files provided with this method are used in -d comparison
+.br 
+-d directly compares the two files provided with -p option through md5 checksums
+.SH BUGS
+No known bugs.
+.SH FILES
+md5 checksums saved with the script are saved in the home/dsk_md5 directory, which will be automatically created if not already present
+.SH EXAMPLES
+dsk -z hamlet.txt   -> saves md5 checksum for hamlet.txt to home/dsk_md5/hamlet.md5
+.br
+dsk -s hamlet.md5   -> compares checksum for hamlet.txt ( orgin file of the hamlet.md5 checksum is saved inside the hamlet.md5 file ) with hamlet.md5
+.br
+dsk -p hamlet.txt -p macbeth.txt -d  -> compares md5 checksums of hamlet.txt and macbeth.txt
+.SH EXIT_STATUS
+none when used without any options or option -z was used
+.br
+for options -z and -d (with double -p):
+.br
+1 if no differences in contents of provided files were found or file was not changed since the checksum was calcualted and saved
+.br
+0 if there were diffrences found in the contents of provided files or if content of the file is diffrent than when the checksum was calcualted and saved
+.SH AUTHOR
+written by Marek Szymański 193229 (https://github.com/Illonir | s193229@student.pg.edu.pl) 
+.SH REPORTING BUGS
+https://github.com/Illonir/dsk/issues
