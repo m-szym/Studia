@@ -1,0 +1,300 @@
+Object subclass: #Wielokat
+	instanceVariableNames: 'wierzcholki nazwa '
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'JezykiProgramowania'!
+
+!Wielokat methodsFor: 'initialize-release'!
+
+initialize: liczbaWierzcholkow name: nowaNazwa
+	"konstruktor obiektu - wielokata"
+
+	nazwa:=nowaNazwa.
+	wierzcholki:=Array new: liczbaWierzcholkow.
+	wierzcholki at: 1 put: 0@0.! !
+
+!Wielokat methodsFor: 'accessing'!
+
+nazwa
+	"podaje nazwe wielokata"
+
+	^nazwa!
+
+nazwa: nowa_nazwa
+	"ustawia nowa nazwe wielokata"
+
+	nazwa:=nowa_nazwa! !
+	
+!Wielokat methodsFor: 'actions'!
+
+pole	
+	"wymagane przez instrukcje"
+	"implementacja zalezy do klasy potomnej"
+
+    ^0!
+    
+hitbox  "Zwraca lewy dolny rog kwadratu ograniczajacego figure."
+        "Wzgledem tego punktu odbywa sie skalowanie."
+        "Implementacja zalezy od klasy potomnej."
+
+    ^0@0!
+    
+bok
+    ^0! 
+        
+skaluj: liczba  "Skaluje o liczba wzgledem pola zwroconego przez hitbox"
+    
+    | pozycja |
+    pozycja := self hitbox.
+    1 to: (wierzcholki size) do: [ :i |
+        wierzcholki at: i put: (((wierzcholki at: i) - pozycja)*liczba + pozycja)
+    ].!
+
+drukuj	
+	"wyswietla parametry wielokata"
+
+	Transcript show: 'Pole: '.
+    Transcript show: (self pole) printString; cr.
+	Transcript show: 'wierzcholki wielokata:'; cr.
+    1 to: (wierzcholki size) do: [ :i |
+        Transcript show: (wierzcholki at: i) printString; cr.
+    ].! !
+
+
+Wielokat subclass: #Kwadrat
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'JezykiProgramowania'!
+
+
+!Kwadrat methodsFor: 'arithmetic'!
+
++ figura
+	"dodaj 2 figury w sensie pola"
+
+	| p |
+
+	p:=self pole + figura pole.
+	^(Kwadrat new) initialize: p sqrt! 
+	
+= figura
+    (figura isMemberOf: Kwadrat)
+        ifFalse: [
+        Transcript show: 'Figury nie sa przystajace'; cr.
+        ^False
+    ].
+    
+    (self pole = figura pole)
+    ifTrue: [
+        Transcript show: 'Figury sa przystajace'; cr.
+        ^True
+    ].
+    Transcript show: 'Figury nie sa przystajace'; cr.
+    ^False! !
+
+!Kwadrat methodsFor: 'actions'!
+
+pole
+	"licz pole kwadratu"
+
+	^(wierzcholki at: 2) x squared! 
+	
+hitbox
+    ^(wierzcholki at: 1)! !
+
+!Kwadrat methodsFor: 'initialize-release'!
+
+initialize: bok
+	"tworz kwadrat o podanym boku"
+
+	super initialize: 4 name: 'Kwadrat'.
+	wierzcholki at: 2 put: bok@0.
+	wierzcholki at: 3 put: bok@bok.
+	wierzcholki at: 4 put: 0@bok.! !
+	
+
+"Szesciokat"	
+Wielokat subclass: #Heks
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'JezykiProgramowania'!
+
+
+!Heks methodsFor: 'arithmetic'!
+
++ figura
+	"tworzy nowy heks o polu rownym sumie pol dodawanych figur"
+	"nowy heks w standardowej pozycji - wierzcholki at: 1 = 0@0"
+	"wzor: bok = sqrt([2*Pole]/[3*sqrt(3)])"
+
+	| nowyBok |
+	nowyBok:= ((2*(self pole + figura pole))/(3*(3 sqrt))).
+	^(Heks new) initialize: nowyBok sqrt! 
+	
+= figura
+    (figura isMemberOf: Heks)
+        ifFalse: [
+        Transcript show: 'Figury nie sa przystajace'; cr.
+        ^False
+    ].
+
+    (self pole = figura pole)
+    ifTrue: [
+        Transcript show: 'Figury sa przystajace'; cr.
+        ^True
+    ].
+    Transcript show: 'Figury nie sa przystajace'; cr.
+    ^False! !
+    
+
+!Heks methodsFor: 'actions'!
+
+pole
+	"licz pole szesciokata"
+	"wzor: Pole = 3*sqrt(3)*bok^2/2"
+
+	| bok |
+	bok := (((wierzcholki at: 4) - (wierzcholki at: 1)) x)/2.
+	^(((bok squared)*(3*(3 sqrt)))/2)!
+	
+hitbox
+
+    | pozycja |
+    pozycja := ((wierzcholki at: 1) x)@((wierzcholki at: 5) y).
+    ^pozycja! !
+
+    
+!Heks methodsFor: 'initialize-release'!
+
+initialize: bok
+	"tworz szesciokat o podanym boku"
+	"wierzcholek 1 to 0@0"
+	"	  2--3  	"
+	"	 /    \ 	"
+	"	1      4	"
+	"	 \    / 	"
+	"	  6--5  	"
+
+    | kat |
+	kat := (Float pi)/3.	"kat w radianach"
+
+	super initialize: 6 name: 'Heks'.
+    	wierzcholki at: 2 put: (((wierzcholki at: 1) x) + (bok *(kat cos)))@(((wierzcholki at: 1) y) + (bok * (kat sin))).
+	wierzcholki at: 3 put: (((wierzcholki at: 1) x) + ((bok * (kat cos)) + bok))@(((wierzcholki at: 1) y) + (bok * (kat sin))).
+	wierzcholki at: 4 put: (((wierzcholki at: 1) x) + (2 * bok))@((wierzcholki at: 1) y).
+	wierzcholki at: 5 put: (((wierzcholki at: 1) x) + ((bok * (kat cos)) + bok))@(((wierzcholki at: 1) y) + (-1 * bok* (kat sin))).
+	wierzcholki at: 6 put: (((wierzcholki at: 1) x) + (bok * (kat cos)))@(((wierzcholki at: 1) y) + (-1 * bok * (kat sin))).! !
+	
+	
+
+"Testy"
+Transcript cr.
+Transcript show: 'Utworzenie heksa h1 o boku 1 i wypisanie jego pola'; cr.
+h1 := (Heks new) initialize: 1.
+Transcript show: 'Pole h1: '.
+Transcript show: (h1 pole) printString; cr.
+
+Transcript cr.
+Transcript show: 'Utworzenie kwadratu k1 o boku 1 i wypisanie jego pola i wierzcholkow'; cr.
+k1 := (Kwadrat new) initialize: 1.
+Transcript show: 'Pole k1: '.
+Transcript show: (k1 pole) printString; cr.
+k1 drukuj.
+
+
+Transcript cr.
+Transcript show: 'Wydrukowanie heksa h1 o boku 1'; cr.
+h1 drukuj.
+
+Transcript cr.
+Transcript show: 'Utworzenie i wydrukowanie heksa h2 o boku 2'; cr.
+h2 := (Heks new) initialize: 2.
+h2 drukuj.
+Transcript show: 'Pole h2: '.
+Transcript show: (h2 pole) printString; cr.
+
+Transcript cr.
+Transcript show: 'Suma pol h1 i h2: '.
+A := (h1 pole) + (h2 pole). 
+Transcript show: A printString; cr.
+
+Transcript cr.
+Transcript show: 'Dodanie h1 do h2'; cr.
+h12 := h1 + h2.
+Transcript show: 'Pole h1 + h2: '.
+Transcript show: (h12 pole) printString; cr.
+Transcript show: 'Wydrukowanie h1+h2: '; cr.
+h12 drukuj.
+
+Transcript cr.
+Transcript show: 'Dodanie h2 do h1'; cr.
+h21 := h2 + h1.
+Transcript show: 'Pole h2 + h1: '.
+Transcript show: (h21 pole) printString; cr.
+Transcript show: 'Wydrukowanie h2+h1: '; cr.
+h21 drukuj.
+
+Transcript cr.
+Transcript show: 'Skalowanie przeprowadzanie jest tak, aby figura rosla w gore i w prawo. Odbywa się wiec wzgledem lewego dolnego rogu kwadratu, ktory ogranicza figure.'; cr.
+
+Transcript cr.
+Transcript show: 'Przeskalowanie h2 o 0.5'; cr.
+h2 skaluj: 0.5.
+Transcript show: 'nowe pole h2: '; cr.
+Transcript show: (h2 pole) printString; cr.
+Transcript show: 'Wydrukowanie h2: '; cr.
+h2 drukuj.
+
+Transcript cr.
+Transcript show: 'Przeskalowanie h1 o 5'; cr.
+h1 skaluj: 5.
+Transcript show: 'Nowwe pole h1: '; cr.
+Transcript show: (h1 pole) printString; cr.
+Transcript show: 'Wydrukowanie h1: '; cr.
+h1 drukuj.
+
+Transcript cr.
+Transcript show: 'Utworzenie kwadratu k1 o boku 1 i wypisanie jego pola i wierzcholkow'; cr.
+k1 := (Kwadrat new) initialize: 1.
+Transcript show: 'Pole k1: '.
+Transcript show: (k1 pole) printString; cr.
+k1 drukuj.
+
+Transcript cr.
+Transcript show: 'Przeskalowanie k1 o 10'; cr.
+k1 skaluj: 10.
+Transcript show: 'nowe pole k1: '; cr.
+Transcript show: (k1 pole) printString; cr.
+Transcript show: 'Wydrukowanie k1: '; cr.
+k1 drukuj.
+
+
+Transcript cr.
+Transcript show: 'Utworzenie szesciokatow ha i hb o boku 1 i szesciokata hc o boku 2'; cr.
+ha := (Heks new) initialize: 1.
+hb := (Heks new) initialize: 1.
+hc := (Heks new) initialize: 2.
+Transcript show: 'Porownanie ha i hb:'; cr.
+ha = hb.
+Transcript show: 'Porownanie ha i hc:'; cr.
+ha = hc.
+
+Transcript cr.
+Transcript show: 'Utworzenie kwadratow ka i kb o boku 1 i kwadratu kc o boku 2'; cr.
+ka := (Kwadrat new) initialize: 1.
+kb := (Kwadrat new) initialize: 1.
+kc := (Kwadrat new) initialize: 2.
+Transcript show: 'Porownanie ka i kb:'; cr.
+ka = kb.
+Transcript show: 'Porownanie ka i kc:'; cr.
+ka = kc.
+
+
+Transcript cr.
+Transcript show: 'Test mechanizmu zabezpieczajacego przed uznaniem roznych rodzajow figur za przystajce:'; cr.
+Transcript show: 'Porownanie ka i ha:'; cr.
+ka = ha.
+Transcript show: 'Porownanie ha i ka:'; cr.
+ha = ka.
