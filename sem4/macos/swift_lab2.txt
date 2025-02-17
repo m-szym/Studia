@@ -1,0 +1,138 @@
+// Functions
+
+// Exercise 1
+func minValue(_ a: Int, _ b: Int) -> Int {
+    if a <= b {
+        return a
+    } else { 
+        return b
+    }
+}
+print("minValue(4, 12) == \(minValue(4, 12))")
+
+// Exercise 2
+func lastDigit(_ num:Int) -> Int {
+    let s = String(num)
+    return (s.last!).wholeNumberValue ?? 0
+}
+print("lastDigit(1289) == \(lastDigit(1289))")
+
+// Exercise 3
+func divides(_ a:Int, _ b:Int) -> Bool {
+    return (a % b) == 0
+}
+print(divides(7, 3))
+
+func countDivisors(_ num:Int) -> Int {
+    var dividers: Int = 0
+    for i in 1...num {
+        if divides(num, i) {
+            dividers += 1
+        }
+    }
+    return dividers
+}
+print(countDivisors(10))
+
+func isPrime(_ num:Int) -> Bool {
+    return countDivisors(num) == 0
+}
+print("isPrime(10) == \(isPrime(10))")
+print("isPrime(17) == \(isPrime(17))")
+
+
+// Closures
+
+// Exercise 1
+func smartBart(iter:Int, f:() -> ()) {
+    for _ in 1...iter {
+        f()
+    }
+}
+print("Using smartBart")
+smartBart(iter:5, f:{ print("I will pass this course with best mark, because Swift is great!") })
+
+// Exercise 2
+let numbers = [10, 16, 18, 30, 38, 40, 44, 50]
+print("[i for i in numbers if i % 4 == 0] == \(numbers.filter{$0 % 4 == 0})")
+
+// Exercise 3
+print("max(numbers) == \(numbers.reduce(0){$0 >= $1 ? $0 : $1})")
+
+// Exercise 4
+var strings = ["Gdansk", "University", "of", "Technology"]
+print("joined strings == \(strings.reduce(""){$0 + " " + $1})")
+
+// Exercise 5
+let numbers2 = [1, 2 ,3 ,4, 5, 6]
+let squares = numbers2.filter { $0 % 2 != 0 }.map { $0 * $0 }
+let sum = squares.reduce(0){$0 + $1}
+print("Sum of squares of odd numbers == \(squares.reduce(""){ (a, b) in return a.isEmpty ? "\(b)" : "\(a) + \(b)" }) -> \(sum)")
+
+
+// Tuples
+
+// Exercise 1
+func minmax(_ a:Int, _ b:Int) -> (Int, Int) {
+    if (a >= b) {
+        return (b, a)
+    } else {
+        return (a, b)
+    }
+}
+let mm = minmax(4, 10)
+print("min(4, 10) == \(mm.0)")
+print("max(4, 10) == \(mm.1)")
+
+// Exercise 2
+var stringsArray = ["gdansk", "university", "gdansk", "university", "university", "of",  "technology", "technology", "gdansk", "gdansk"]
+var str: [String] = []
+var res: [(String, Int)] = []
+for s in stringsArray {
+    if !str.contains(s) {
+        var howMany = 0
+        str.append(s)
+        for s2 in stringsArray {
+            if s == s2 {
+                howMany += 1
+            }
+        }
+        res.append((s, howMany))
+    } 
+}
+print(res)
+
+
+// Enums
+
+// Exercise 1
+enum Day: Int {
+    case Monday = 1
+    case Tuesday = 2
+    case Wednesday = 3
+    case Thursday = 4
+    case Friday = 5
+    case Saturday = 6
+    case Sunday = 7
+    
+    func emoji() -> String {
+        switch(self) {
+            case .Monday: 
+                return "😀"
+            case .Tuesday: 
+                return "😄"
+            case .Wednesday: 
+                return "😅"
+            case .Thursday: 
+                return "😆"
+            case .Friday: 
+                return "🙂"
+            case .Saturday: 
+                return "🙃"
+            case .Sunday: 
+                return "😉"
+        }
+    }
+}
+let d = Day.Monday
+print("Day.Monday.emoji() == \(d.emoji())")

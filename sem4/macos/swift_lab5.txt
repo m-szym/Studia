@@ -1,0 +1,85 @@
+/**
+
+                            Online Swift Compiler.
+                Code, Compile, Run and Debug Swift script online.
+Write your code in this editor and press "Run" button to execute it.
+
+*/
+
+
+class WordGame {
+    let allWords = [
+        "colors": ["red", "green", "blue", "liliac", "amaranthe"],
+        "vehicles": ["car", "plane", "boat", "ship", "bike"],
+        "IT": ["class", "variable", "loop", "condition"]
+    ]
+    var secret: String
+    var guessed: [String]
+    var triesLeft: Int
+    let difficultyModifiers = [
+        "easy": 3,
+        "medium": 2,
+        "hard": 1
+    ]
+    
+    
+    init(category: String, difficulty: String) {
+        self.secret = (allWords[category] ?? allWords["colors"])!.randomElement()!
+        self.guessed = Array(repeating: "_", count: self.secret.count)
+        self.triesLeft = (self.difficultyModifiers[difficulty] ?? 2) * self.secret.count
+        print("You are now playing on \(difficulty) and guessing word in the \(category) category")
+    }
+    
+    func draw() {
+        print(self.guessed)
+        print("Guesses left: \(self.triesLeft)")
+    }
+    
+    func play() {
+        print("Game started!")
+        while(true) {
+            if (!self.guessed.contains("_")) {
+                print("You won! the secret word was \"\(self.secret)\"")
+                break
+            }
+            
+            if (self.triesLeft == 0) {
+                print("You lost! no more guesses")
+                break
+            }
+            
+            
+            self.draw()
+            print("Enter your guess: ", terminator: "")
+            let input = readLine()
+            
+            if let input = input, input.count == 1 {
+                let char = Character(input)
+                var correct = false
+                
+                for (index, letter) in self.secret.enumerated() {
+                    if letter == char {
+                        self.guessed[index] = String(char)
+                        correct = true
+                    }
+                }
+                
+                if (correct) {
+                    print("You guessed right! - \(char) is in the secret word")
+                } else {
+                    print("\(char) is not in the secret word")
+                    triesLeft -= 1
+                }
+                
+                
+                
+            } else {
+                print("Please enter only one character.")
+            }
+
+        }
+    }
+}
+
+let ng = WordGame(category: "IT", difficulty: "hard")
+ng.play()

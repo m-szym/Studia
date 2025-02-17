@@ -1,0 +1,122 @@
+import Foundation
+
+// Exercise: 1
+print("\tExercise: 1")
+var a = 10
+var b = 7
+print("\(a) + \(b) = \(a+b)")
+
+// Exercise: 2
+print("\tExercise: 2")
+let gut = "Gdansk University of Technology"
+var gut_star = ""
+for char in gut {
+  if (char == "n") {
+    gut_star = gut_star + "⭐️"
+  } else {
+    gut_star = gut_star + String(char)
+  }
+}
+print(gut)
+print(gut_star)
+
+// Exercise: 3
+print("\tExercise: 3")
+var name = "Marek Szymanski"
+print("\(name) -> \(String(name.reversed()))")
+
+// Exercise: 4
+print("\tExercise: 4")
+for _ in 1...11 {
+  print("I will pass this course with best mark, because Swift is great!")
+}
+
+// Exercise: 5
+print("\tExercise: 5")
+let n = 6
+for i in 1..<n {
+  print(i*i)
+}
+
+// Exercise: 6
+print("\tExercise: 6")
+let other_n = 4
+for _ in 1...other_n {
+  for _ in 1...other_n {
+    print("@", terminator: "")
+  }
+  print()
+}
+
+// Exercise: 7
+print("\tExercise: 7")
+var numbers = [5, 10, 20, 15, 80, 13]
+var max = numbers[0]
+for num in numbers {
+  if max < num {
+    max = num
+  }
+}
+print("Max([5, 10, 20, 15, 80, 13]) = \(max)")
+
+// Exercise: 8
+print("\tExercise: 8")
+print("Reverse [5, 10, 20, 15, 80, 13] is [", terminator: " ")
+for num in numbers.reversed() {
+  print(num, terminator: " ")
+}
+print("]")
+
+// Exercise: 9
+print("\tExercise: 9")
+var allNumbers = [10, 20, 10, 11, 13, 20, 10, 30]
+var unique = [Int]()
+for num in allNumbers {
+  if !unique.contains(num) {
+    unique.append(num)
+  }
+}
+print("[10, 20, 10, 11, 13, 20, 10, 30] contains \(unique) unique numbers")
+
+// Exercise: 10
+print("\tExercise: 10")
+let number = 10
+var divisors = Set<Int>()
+for i in 1...number {
+  if number % i == 0 {
+    divisors.insert(i)
+  }
+}
+print("Divisors of \(number) are \(divisors.sorted())")
+
+// Exercise: 11
+print("\tExercise: 11")
+var flights: [[String: String]] = [
+    [
+        "flightNumber" : "AA8025",
+        "destination" : "Copenhagen"
+    ],
+    [
+        "flightNumber" : "BA1442",
+        "destination" : "New York"
+    ],
+    [
+        "flightNumber" : "BD6741",
+        "destination" : "Barcelona"
+    ]
+]
+var flightNumbers = [String]()
+for flight in flights {
+  flightNumbers.append(flight["flightNumber"] ?? "flightDataCorrupted")
+}
+print("Flight numbers are \(flightNumbers)")
+
+// Exercise: 12
+print("\tExercise: 12")
+var names = ["Hommer","Lisa","Bart"]
+var fullNames = [[String:String]]()
+let lastName = "Simpson"
+for name in names {
+  fullNames.append(["lastName": lastName, "firstName": name])
+}
+print(fullNames)

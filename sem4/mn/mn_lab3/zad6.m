@@ -1,0 +1,1 @@
+load('filtr_dielektryczny.mat');

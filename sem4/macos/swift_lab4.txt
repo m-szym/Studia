@@ -1,0 +1,206 @@
+import Foundation
+
+class City {
+    var id: Int
+    var name: String
+    var description: String
+    var latitude: Double
+    var longitude: Double
+    var keywords: [String] = [String]()
+    
+    init(_ id: Int, _ name: String, _ desc: String, _ latitude: Double, 
+        _ longitude: Double, _ keywords: [String]) {
+            self.id = id
+            self.name = name
+            self.description = desc
+            self.latitude = latitude
+            self.longitude = longitude
+            self.keywords += keywords
+        }
+        
+    func getXYString() -> String {
+        return "(\(self.latitude), \(self.longitude))"
+    }
+    
+    func toString() -> String {
+        return "\(self.name) \(self.getXYString())"
+    }
+}
+
+
+func getCityByName(cities: [City], wantedName: String) -> [City] {
+    var res: [City] = [City]()
+    for city in cities {
+        if city.name == wantedName {
+            res.append(city)
+        }
+    }
+    return res
+}
+
+func getCityByKeyword(cities: [City], wantedKeyword: String) -> [City] {
+    var res = [City]()
+    for city in cities {
+        if city.keywords.contains(wantedKeyword) {
+            res.append(city)
+        }
+    }
+    return res
+}
+
+func distance(_ A: (x: Double, y: Double), _ B: (x: Double, y: Double)) -> Double {
+    return (pow((A.x - B.x), 2) + pow((A.y - B.y), 2)).squareRoot()
+}
+
+func distanceBetween2Cities(_ cityA: City, _ cityB: City) -> Double {
+    return distance((cityA.latitude, cityA.longitude), (cityB.latitude, cityB.longitude))
+}
+
+func closestFurthestCity(cities: [City], point: (x: Double, y: Double)) -> (closest: City, furthest: City) {
+    var res: (closest: City, furthest: City) = (cities[0], cities[1])     // tmp values
+    var minDist: Double = 9999999999999.0
+    var maxDist: Double = 0.0
+    
+    for city in cities {
+        let dist = distance((city.latitude, city.longitude), point)
+        if dist < minDist {
+            minDist = dist
+            res.closest = city
+        } else if dist > maxDist {
+            maxDist = dist
+            res.furthest = city
+        }
+    }
+    return res
+}
+func displayClosestFurthestCity(cities: [City], point: (x: Double, y: Double)) {
+    let res = closestFurthestCity(cities: cities, point: point)
+    print("Closest to (\(point.x), \(point.y)) is the city of: \(res.closest.toString())")
+    print("furthest from (\(point.x), \(point.y)) is the city of: \(res.furthest.toString())")
+}
+
+func twoFurthestCities(cities: [City]) -> (City, City) {
+    var maxDist: Double = 0.0
+    var res: (City, City) = (cities[0], cities[1])    // tmp values
+    
+    for cityA in cities {
+        for cityB in cities {
+            if cityA === cityB {
+                continue
+            }
+            
+            let dist = distance((cityA.latitude, cityA.longitude), (cityB.latitude, cityB.longitude))
+            if dist > maxDist {
+                maxDist = dist
+                res = (cityA, cityB)
+            }
+        }
+    }
+    return res
+}
+func display2FurthestCities(cities: [City]) {
+    let res = twoFurthestCities(cities: cities)
+    print("Of the provided the 2 cities futhest from each other are: \(res.0.toString()) and \(res.1.toString()))")
+}
+
+class Location {
+    var id: Int
+    var name: String
+    var type: String
+    var rating: Int = 3 {
+        didSet { if rating > 5 || rating < 1 { rating = oldValue} }
+    }
+    
+    init(_ id: Int, _ name: String, _ type: String, _ rating: Int) {
+        self.id = id
+        self.name = name
+        self.type = type
+        self.rating = rating
+    }
+}
+
+// Inheritance used instead of extension as "extensions must not contain stored properties"
+class CityWithLocations: City {
+    var locations: [Location] = [Location]()
+    
+        init(_ id: Int, _ name: String, _ desc: String, _ latitude: Double, 
+        _ longitude: Double, _ keywords: [String], _ locations: [Location]) {
+            super.init(id, name, desc, latitude, longitude, keywords)
+            self.locations += locations
+        }
+}
+
+func displayCitiesWith5starRestaurants(cities: [CityWithLocations]) {
+    for city in cities {
+        for location in city.locations {
+            if location.type == "restaurant" && location.rating == 5 {
+                print("The fine city of \(city.name) has a 5-star restaurant!")
+            }
+        }
+    }
+}
+
+func sortLocationsInCityByRating(city: CityWithLocations) -> [Location] {
+    return city.locations.sorted(by: { $0.rating < $1.rating })
+}
+
+func display5starLocations(cities: [CityWithLocations]) {
+    for city in cities {
+        let bestLocations = city.locations.filter({ $0.rating == 5 })
+        print("The city of \(city.name) has \(bestLocations.count) locations with 5-star rating")
+        if bestLocations.count > 0 {
+            print("These are:")
+            for loc in bestLocations {
+                print("\t\(loc.name) - \(loc.type) *****")
+            }
+        }
+    }
+}
+
+
+// Exercises
+var cities = [City]()
+cities.append(City(4, "Olkcester", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 72.93451908837349, -105.54836320443347, ["beach", "river", "sport", "alpine"]))
+cities.append(City(79, "Illegend", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 6.973892736647841, 1.6637553528713056, ["beach", "nature"]))
+cities.append(City(24, "Shadena", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 52.01938027640003, -81.19029814602179, ["lake", "alpine", "beach", "historic"]))
+cities.append(City(35, "Soni", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", -27.43481430455983, -130.13833951236242, ["music", "historic", "river", "mountain"]))
+cities.append(City(42, "Rodon", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", -34.85489856235452, 162.45954411162307, ["river", "music"]))
+cities.append(City(20, "Fruhphia", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", -66.74694188384214, 158.14139616997204, ["music", "beach", "alpine", "historic"]))
+cities.append(City(95, "Briwell", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 20.155940173102394, -165.66918371776575, ["river", "nature", "seaside", "beach"]))
+cities.append(City(0, "Oplaubert", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", -24.348843471147163, 142.6556665368501, ["shopping"]))
+cities.append(City(94, "Wimstead", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 24.055843008269193, 127.36661565210511, ["beach", "historic"]))
+cities.append(City(2, "Sheecvale", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 69.003281888645, -6.3579827944462295, ["river", "party", "sport", "festival"]))
+cities.append(City(31, "Ontstin", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 65.03456183554175, 140.85429836135665, ["nature", "festival", "river", "beach"]))
+cities.append(City(90, "Antawood", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 28.04466799122862, -17.3338726459653, ["nature", "music"]))
+cities.append(City(62, "Utrido", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", -45.75982648751341, -162.3131584652059, ["river"]))
+cities.append(City(72, "Wosa", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 47.53845759289135, -139.05234111950224, ["beach", "mountain"]))
+cities.append(City(8, "Kathe", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 66.22454852162403, 128.7375709644603, ["lake"]))
+cities.append(City(40, "Dasbury", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 89.49796390278559, -44.76964330303289, ["shopping", "nature", "party"]))
+cities.append(City(55, "Kreudta", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 23.568377641499737, 7.832459174028742, ["festival"]))
+cities.append(City(26, "Vuemsey", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 76.24129265233955, -82.77770871857743, ["nature", "art", "shopping", "food"]))
+cities.append(City(60, "Prounfield", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 25.902524842343226, 104.45444721781195, ["music", "lake", "shopping", "sport"]))
+cities.append(City(45, "Cumlas", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 62.323352803141034, 163.32786451054818, ["river"]))
+
+// Search
+print("Search for cities with the name = 'Kathe': \(getCityByName(cities: cities, wantedName: "Kathe").map {$0.name})")
+print("Search for cities with the keyword = 'river': \(getCityByKeyword(cities: cities, wantedKeyword: "river").map {$0.name}))")
+
+// Distance
+print("The distance between the city of \(cities[0].toString()) and the city of \(cities[1].toString())) is: \(distanceBetween2Cities(cities[0], cities[1]))")
+displayClosestFurthestCity(cities: cities, point: (0.0, 0.0))
+display2FurthestCities(cities: cities)
+
+// Extended data model
+var citiesExt = [CityWithLocations]()
+citiesExt.append(CityWithLocations(73, "Olkcester", "Lorem ipsum ...", 1.5048031956762458, 109.92782349513567, ["lake"], [Location(91, "Oldlea", "oldtown", 4), Location(19, "Esterton", "museum", 3), Location(21, "5-star", "restaurant", 5)]))
+citiesExt.append(CityWithLocations(57, "Illegend", "Lorem ipsum ...", 29.821790168893614, -126.16667159958898, ["historic", "art", "seaside"], [Location(13, "Ashwick", "bar", 3), Location(19, "Rosemoor", "shop", 2), Location(45, "Westfield", "pub", 5), Location(52, "Deermill", "restaurant", 5)]))
+citiesExt.append(CityWithLocations(39, "Shadena", "Lorem ipsum ...", -11.623188966684125, 65.0459623915284, ["alpine", "lake", "food"], [Location(51, "Rockmount", "beach", 1), Location(73, "Draccoast", "pool", 2), Location(76, "Springmallow", "stadium", 5), Location(42, "Cleargrass", "stadium", 2), Location(44, "Strongdell", "stadium", 2)]))
+citiesExt.append(CityWithLocations(15, "Soni", "Lorem ipsum ...", -74.12388578750085, -91.8427820853944, ["art", "beach", "shopping", "party"], [Location(92, "Fairice", "bar", 3), Location(69, "Crystalmeadow", "nature preserve", 1), Location(44, "Clearhill", "restaurant", 3), Location(7, "Windbridge", "beach", 5), Location(63, "Starryhill", "bar", 1)]))
+citiesExt.append(CityWithLocations(23, "Rodon", "Lorem ipsum ...", 16.332831067926733, 54.757146008965236, ["food", "festival"], [Location(25, "Dellgate", "oldtown", 5)]))
+
+displayCitiesWith5starRestaurants(cities: citiesExt)
+print("Locations in \(citiesExt[3].name) are:")
+for loc in sortLocationsInCityByRating(city: citiesExt[3]) {
+    print("\t\(loc.name) | \(loc.type) | rating: \(loc.rating)/5")
+}
+display5starLocations(cities: citiesExt)

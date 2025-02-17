@@ -1,0 +1,150 @@
+import Foundation
+
+class Post {
+    var title:String
+    var author:User
+    var time:Date
+    var shortText:String
+    var tag:Tags
+    var score:Score
+    var commentsNum:Int = 0
+
+    init(author: User, title: String, text: String, tag: Tags) {
+        self.author = author
+        self.title = title
+        self.time = Date()
+        self.tag = tag
+        self.shortText = text
+        self.score = Score(0, 0)
+    }
+
+    init(author: User, title: String, text: String, tag: Tags, score:Score, commentsNum:Int) {
+        self.author = author
+        self.title = title
+        self.time = Date()
+        self.tag = tag
+        self.shortText = text
+        self.score = score
+        self.commentsNum = commentsNum
+    }
+
+    func presentPost() {
+        print("Title: \(self.title) | Tag: \(self.tag) | Author: \(self.author.username) | \(self.presentTimeInterval()) | Score: \(self.score.presentScore()) | Comments: \(self.commentsNum)")
+    }
+
+    func presentTimeInterval() -> String {
+        var interval = time.timeIntervalSinceNow / 60
+        if interval < 1 {
+            return "just now"
+        }
+        else if interval < 60 {
+            return String(format: "%.f m ago", -interval)
+        } else if interval < 24*60 {
+            // return "\(interval / 24)d"
+            return String(format: "%.1f h ago", -interval)
+        } else {
+            //return "\(interval)h"
+            return String(format: "%.1f d ago", -interval/24)
+        }
+    }
+
+}
+
+class ImagePost: Post {
+    var img:Image
+    
+    init(author: User, title: String, text: String, tag: Tags, score:Score, commentsNum:Int, img: Image) {
+        self.img = img
+        super.init(author: author, title: title, text: text, tag: tag, score: score, commentsNum: commentsNum)
+    }
+
+    override func presentPost() {
+        super.presentPost()
+        print("::with image: \(img.alt)")
+    }
+}
+
+class User {
+    var username:String
+    var karma:Int = 0
+    var posts:[Post]
+
+    init(username: String, karma: Int) {
+        self.username = username
+        self.karma = karma
+        self.posts = [Post]()
+    }
+
+    func presentUser() {
+        print("\tUser: \(self.username) | Karma: \(self.karma) | Posts [\(self.posts.count)]:")
+        for p in self.posts {
+            p.presentPost()
+        }
+    }
+    
+}
+
+enum Tags:String{
+    case Mod = "mod post"
+    case Art = "art post"
+    case Ad = "advertisement post"
+    case Misc = "miscellaneous post"
+    case None = "untagged"
+}
+
+struct Score {
+    var upvotes:Int = 0
+    var downvotes:Int = 0
+    init(_ up: Int, _ down: Int) {
+        self.upvotes = up
+        self.downvotes = down
+    }
+    func getScore() -> Int {
+        return upvotes - downvotes
+    }
+    func presentScore() -> String {
+        var score = getScore()
+        if score >= 1000 {
+            return "\(score/1000)k"
+        } else {
+            return "\(score)"
+        }
+    }
+}
+
+struct Image {
+    var image:String
+    var alt:String
+    var caption:String
+    init(alt: String, caption: String) {
+        self.image = "Lorem picsum"
+        self.alt = alt
+        self.caption = caption
+    }
+}
+
+var xyz = User(username: "XYZ", karma: 501)
+xyz.posts.append(Post(author: xyz, 
+                      title: "First post here", 
+                      text: "Lorem ipsum",
+                      tag: Tags.None,
+                      score: Score(123, 4),
+                      commentsNum: 5))
+
+xyz.posts.append(Post(author: xyz, 
+                      title: "Poll", 
+                      text: "Lorem ipsum",
+                      tag: Tags.Mod,
+                      score: Score(617, 2332),
+                      commentsNum: 801))
+
+xyz.posts.append(ImagePost(author: xyz, 
+                      title: "Beautiful night sky", 
+                      text: "Lorem ipsum",
+                      tag: Tags.Art,
+                      score: Score(3141, 390),
+                      commentsNum: 135,
+                      img: Image(alt: "Sorry, it appears the image has gone missing", 
+                                 caption: "Stargazing")))
+
+xyz.presentUser()
