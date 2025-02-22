@@ -1,8 +1,8 @@
 #! /bin/bash
 
-# Author : Marek Szymanski ( s193229@student.pg.edu.pl )
+# Author : Marek Szymanski
 # Created On : 04.05.2023
-# Last Modified By : Marek Szymanski ( s193229@student.pg.edu.pl )
+# Last Modified By : Marek Szymanski
 # Last Modified On : 12.05.2023
 # Version : 0.07
 #
@@ -45,7 +45,6 @@ porownaj_plik_i_sume() {
 
     echo "$WYNIK_POROWNANIA_Z_SUMA"
 
-    #if grep "OK" "$WYNIK_POROWNANIA_Z_SUMA" ;then
     if [[ "$WYNIK_POROWNANIA_Z_SUMA" == *"OK"* ]];then
         WYNIK_POROWNANIA_Z_SUMA="1"
         echo "ok"
@@ -67,17 +66,11 @@ porownaj_2_katalogi() {
     KATALOG_1=$1
     KATALOG_2=$2
 
-    #N=${KATALOG_1##*/}
-    #echo "$N"
-
     rm "$TMP/2dir.md5"
     md5deep -r "$KATALOG_1" > "$TMP/2dir.md5"
       
     WYNIK_POROWNANIA_KATALOGOW=$(md5deep -r -x "$TMP/2dir.md5" "$KATALOG_2")
     if [ "$WYNIK_POROWNANIA_KATALOGOW" ];then
-        #N=${KATALOG_1##*/}
-        #echo "$N"
-        #WYNIK_POROWNANIA_KATALOGOW=$(echo "$WYNIK_POROWNANIA_KATALOGOW" | sed "s/.*\("$N"\)/\1/g")
         WYNIK_POROWNANIA_KATALOGOW_BOOL="0"
     else
         WYNIK_POROWNANIA_KATALOGOW_BOOL="1"
@@ -111,18 +104,12 @@ while getopts hvp:ds:z: OPT; do
             ;;
         p)
             if [ "$tPLIK_1" ] && [ "$tPLIK_2" ];then
-                #tPLIK_2=""
                 tPLIK_1=$OPTARG
-                #echo "dwa zaj - p1 - $tPLIK_1"
             elif [ "$tPLIK_1" ];then
                 tPLIK_2=$OPTARG
-                #echo "drugie - $tPLIK_2"
             else
                 tPLIK_1=$OPTARG
-                #echo "pierwsze - $tPLIK_1"
             fi
-            #echo "tp1 - $tPLIK_1"
-            #echo "tp2 - $tPLIK_2"
             ;;
         d)
             if [ -f "$tPLIK_1" ] && [ -f "$tPLIK_2" ];then
@@ -181,22 +168,8 @@ INPUT=$(zenity --list --column="Nr" --column="Opcja" 1 "Porownywanie 2 plikow" 2
 
 until [ "$?" = "1" ] || [ "$INPUT" = "8" ];do
     if [ "$INPUT" = "1" ];then
-
         PLIK1=$(zenity --file-selection)
-        #echo "$PLIK1"
-        #CS1=$(md5sum "$PLIK1" | cut -d " " -f 1)
-        #echo "$CS1"
-        #md5sum "$PLIK1" > "$KATALOG/plik1.md5"
-        #echo "$CS1"
-        #cat "$KATALOG/plik1.md5"
-
-
         PLIK2=$(zenity --file-selection)
-        #echo "$PLIK2"
-        #CS2=$(md5sum "$PLIK2" | cut -d " " -f 1)
-        #echo "$CS2"
-
-
         porownaj_2pliki "$PLIK1" "$PLIK2"
 
         if [ "$WYNIK_POROWNANIA_PROSTY" ];then
@@ -205,9 +178,6 @@ until [ "$?" = "1" ] || [ "$INPUT" = "8" ];do
             elif [ "$WYNIK_POROWNANIA_PROSTY" = "0" ];then
                 zenity --info --title "Wynik porównania" --text "Sumy kontrolne nie są zgodne. Pliki mają różną zawartość."   
             fi        
-
-   
-            #zenity --info --title "Wynik porównania" --text "$WYNIK_POROWNANIA_PROSTY"
         fi
 
     elif [ "$INPUT" = "2" ];then
@@ -237,11 +207,8 @@ until [ "$?" = "1" ] || [ "$INPUT" = "8" ];do
 
         if [ "$KATALOG_1" ] && [  "$KATALOG_2" ];then
             porownaj_2_katalogi "$KATALOG_1" "$KATALOG_2"
-            #echo "$WYNIK_POROWNANIA_KATALOGOW"
-
             
             if [ "$WYNIK_POROWNANIA_KATALOGOW_BOOL" = "1" ];then
-                #echo "$KATALOG_1 $KATALOG_2 - $WYNIK_POROWNANIA_KATALOGOW_BOOL - $WYNIK_POROWNANIA_KATALOGOW"
                 zenity --info --title "Wynik porównania" --text "Sumy kontrolne md5 zgodne. Katalogi mają taką samą zawartość."  
             elif [ "$WYNIK_POROWNANIA_KATALOGOW_BOOL" = "0" ];then
                 zenity --info --title "Wynik porównania" --text "Sumy kontrolne nie są zgodne. Katalogi mają różną zawartość. Różnice w zawartości znaleziono w plikach: \n $WYNIK_POROWNANIA_KATALOGOW"   
@@ -259,7 +226,6 @@ until [ "$?" = "1" ] || [ "$INPUT" = "8" ];do
 
 
     INPUT=$(zenity --list --column="Nr" --column="Opcja" 1 "Porownywanie 2 plikow" 2 "Zapisywanie sumy kontrolnej" 3 "Porównanie z zapisaną sumą" 4 "Porówywanie zawartości 2 katalogów" 8 "Wyjscie" --height 300 --width 400)
-    #INPUT=$(zenity --list --column="Nr" --column="Opcja" 1 "Porownywanie 2 plikow" 8 "Wyjscie")
 
 done
 
